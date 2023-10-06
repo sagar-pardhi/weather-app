@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import { LocateFixed, MapPin } from "lucide-react";
 
 import { dateTimeFormat, formateDateTime } from "./utils/utils";
-("./utils/utils.ts");
-import { Weather } from "../types";
 import { getWeatherData } from "./features/weather/api/get-weather-data";
 import { getForecastData } from "./features/weather/api/get-forecast-data";
+import { Weather } from "../types";
 
 const iconMap = {
   "01d": "/assets/Clear.png",
@@ -75,15 +74,15 @@ export const App = () => {
   };
 
   return (
-    <main className="w-full h-fit">
+    <main className="w-full h-screen">
       {isLoading ? (
         <div className="flex justify-center items-center h-full text-white">
           Loading...
         </div>
       ) : (
         <>
-          <div className="flex flex-col md:w-full md:h-screen md:flex-row">
-            <div className="px-2 py-2 bg-[#1e213a] md:w-[40%] md:h-full flex flex-col md:justify-between">
+          <div className="flex flex-col md:w-full md:flex-row">
+            <div className="px-2 py-2 bg-[#1e213a] md:w-[40%]  flex flex-col md:justify-between">
               <div className="flex justify-between text-white">
                 <button className="p-1 px-4 bg-gray-500">
                   Search for places
@@ -120,11 +119,14 @@ export const App = () => {
                 </div>
               </div>
             </div>
-            <div className="p-10 bg-[#100e1d] md:w-full">
-              <div className="grid grid-cols-2 gap-x-5 gap-y-5 md:grid-cols-5">
-                {weatherForecastData?.list?.map((data) => (
-                  <div className="bg-[#1e213a] p-3 flex flex-col justify-between">
-                    <div className="flex flex-col justify-center">
+            <div className="p-5 bg-[#100e1d] md:w-full h-fit">
+              <div className="grid grid-cols-2 gap-x-5 gap-y-5 p-5 md:grid-cols-5">
+                {weatherForecastData?.list?.map((data, index) => (
+                  <div
+                    key={index}
+                    className="bg-[#1e213a] p-3 flex flex-col justify-between"
+                  >
+                    <div className="flex flex-col items-center">
                       <p className="text-center text-white">
                         {formateDateTime(data.dt)}
                       </p>
@@ -146,6 +148,65 @@ export const App = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+              <div className="py-5">
+                <div>
+                  <h2 className="text-xl font-semibold text-white">
+                    Today's Highlights
+                  </h2>
+                </div>
+                <div className="grid grid-cols-1 gap-x-5 p-5 md:grid-cols-2">
+                  <div className="pt-5">
+                    <div className="bg-[#1e213a] w-full p-5">
+                      <div className="flex flex-col gap-y-5 items-center text-white">
+                        <p className="text-sm">Wind Status</p>
+                        <h2 className="text-5xl font-bold">
+                          {weatherData?.wind.speed}{" "}
+                          <span className="text-[30px] font-normal">kmph</span>
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pt-5">
+                    <div className="bg-[#1e213a] w-full p-5">
+                      <div className="flex flex-col gap-y-5 items-center text-white">
+                        <p className="text-sm">Humidity</p>
+                        <h2 className="text-5xl font-bold">
+                          {weatherData?.main.humidity}
+                          <span className="text-[30px] font-thin">%</span>
+                        </h2>
+                        {/* <div className="w-full bg-gray-200 rounded-lg">
+                          <div
+                            className="bg-yellow-300 p-0.5 text-center rounded-lg text-xs font-medium leading-none text-primary-100"
+                            style={{ width: `${weatherData?.main.humidity}%` }}
+                          >
+                            {weatherData?.main.humidity}%
+                          </div>
+                        </div> */}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pt-5">
+                    <div className="bg-[#1e213a] w-full p-5">
+                      <div className="flex flex-col gap-y-5 items-center text-white">
+                        <p className="text-sm">Visibility</p>
+                        <h2 className="text-5xl font-bold">
+                          {weatherData?.visibility / 1000} km
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pt-5">
+                    <div className="bg-[#1e213a] w-full p-5">
+                      <div className="flex flex-col gap-y-5 items-center text-white">
+                        <p className="text-sm">Air Pressure</p>
+                        <h2 className="text-5xl font-bold">
+                          {weatherData?.main.pressure} mb
+                        </h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
