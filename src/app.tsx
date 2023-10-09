@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { LocateFixed, MapPin } from "lucide-react";
 
-import { dateTimeFormat, formateDateTime } from "./utils/utils";
-import { getWeatherData } from "./features/weather/api/get-weather-data";
-import { getForecastData } from "./features/weather/api/get-forecast-data";
+import { WeatherSidebar } from "./components/weather-sidebar";
+import { getWeatherData, getForecastData } from "./services/weather-service";
+import { formateDateTime } from "@/utils/utils";
 import { Weather } from "../types";
+import { WeatherSearch } from "./components/weather-search";
 
-const iconMap = {
+export const iconMap = {
   "01d": "/assets/Clear.png",
   "02d": "/assets/LightCloud.png",
   "03d": "/assets/HeavyCloud.png",
@@ -34,6 +34,7 @@ export const App = () => {
   const [weatherData, setWeatherData] = useState<Weather | null>(null);
   const [weatherForecastData, setWeatherForecastData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
 
   useEffect(() => {
     fetchWeatherData();
@@ -73,6 +74,10 @@ export const App = () => {
     );
   };
 
+  const toggleSearch = () => {
+    setShowSearch((prevShowSearch) => !prevShowSearch);
+  };
+
   return (
     <main className="w-full h-screen">
       {isLoading ? (
@@ -82,43 +87,12 @@ export const App = () => {
       ) : (
         <>
           <div className="flex flex-col md:w-full md:flex-row">
-            <div className="px-2 py-2 bg-[#1e213a] md:w-[40%]  flex flex-col md:justify-between">
-              <div className="flex justify-between text-white">
-                <button className="p-1 px-4 bg-gray-500">
-                  Search for places
-                </button>
-                <button
-                  className="flex justify-center items-center w-10 h-10 bg-gray-500 rounded-full"
-                  onClick={getUserLocation}
-                >
-                  <LocateFixed />
-                </button>
-              </div>
-              <div className="flex flex-col gap-y-5 items-center py-14">
-                <img
-                  className="w-36"
-                  src={iconMap[weatherData?.weather[0].icon]}
-                  alt=""
-                />
-                <h1 className="text-8xl font-light text-[#e7e7eb]">
-                  {Math.floor(weatherData?.main.temp!)}
-                  <span className="text-4xl">°</span>
-                  <span className="text-5xl font-thin text-[#a09fb1]">c</span>
-                </h1>
-                <h2 className="text-3xl font-semibold text-[#a09fb1]">
-                  {weatherData?.weather[0]?.main}
-                </h2>
-                <p className="text-[#88869d] text-lg font-normal">
-                  {dateTimeFormat.format(new Date())}
-                </p>
-                <div className="flex gap-x-2 items-center">
-                  <MapPin className="w-4 h-4 text-[#a09fb1]" />
-                  <p className="font-semibold text-[#a09fb1]">
-                    {weatherData?.name}
-                  </p>
-                </div>
-              </div>
-            </div>
+            {showSearch && <WeatherSearch toggleSearch={toggleSearch} />}
+            <WeatherSidebar
+              getUserLocation={getUserLocation}
+              weatherData={weatherData}
+              toggleSearch={toggleSearch}
+            />
             <div className="p-5 bg-[#100e1d] md:w-full h-fit">
               <div className="grid grid-cols-2 gap-x-5 gap-y-5 p-5 md:grid-cols-5">
                 {weatherForecastData?.list?.map((data, index) => (

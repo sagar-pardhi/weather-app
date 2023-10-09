@@ -10,5 +10,5 @@ export default defineConfig({
   resolve: {
     alias: [{ find: "@", replacement: "/src" }],
   },
-  base: "/weather-app/"
+  base: "/weather-app/",
 });
