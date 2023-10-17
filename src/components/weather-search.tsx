@@ -54,10 +54,13 @@ export const WeatherSearch = ({
       <div>
         {citiesData.map((city) => (
           <button
+            // @ts-ignore
             key={city.id}
             className="flex justify-between px-2 py-5 w-full text-xl text-white group hover:border"
+            // @ts-ignore
             onClick={() => handleUpdateLocation(city.latitude, city.longitude)}
           >
+            {/* @ts-ignore */}
             {city.name}
             <span className="hidden group-hover:block">{">"}</span>
           </button>

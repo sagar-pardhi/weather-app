@@ -1,5 +1,11 @@
-const options1 = { weekday: "long", month: "long", day: "numeric" };
-export const dateTimeFormat = new Intl.DateTimeFormat("en-US", options1);
+interface IOptions {
+  weekday: "long" | "short" | "narrow";
+  month: "long" | "short" | "narrow";
+  day: "numeric" | "2-digit" | undefined;
+}
+
+const options: IOptions = { weekday: "long", month: "long", day: "numeric" };
+export const dateTimeFormat = new Intl.DateTimeFormat("en-US", options);
 
 export function convertFahrenheitToCelcius(farenheit: number) {
   return (farenheit - 32) * (5 / 9);

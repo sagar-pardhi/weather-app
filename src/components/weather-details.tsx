@@ -38,7 +38,7 @@ export const WeatherDetails = ({ weatherData }: WeatherDetailsProps) => {
             <div className="flex flex-col gap-y-5 items-center text-white">
               <p className="text-sm">Visibility</p>
               <h2 className="text-5xl font-bold">
-                {weatherData?.visibility / 1000} km
+                {weatherData?.visibility! / 1000} km
               </h2>
             </div>
           </div>

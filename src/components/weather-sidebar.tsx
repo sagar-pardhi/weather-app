@@ -31,6 +31,7 @@ export const WeatherSidebar = ({
       <div className="flex flex-col gap-y-5 items-center pb-24">
         <img
           className="py-16 w-36"
+          // @ts-ignore
           src={iconMap[weatherData?.weather[0].icon]}
           alt=""
         />
@@ -41,6 +42,7 @@ export const WeatherSidebar = ({
             <span className="text-5xl font-thin text-[#a09fb1]">c</span>
           </h1>
           <h2 className="text-3xl font-semibold text-[#a09fb1]">
+            {/* @ts-ignore */}
             {weatherData?.weather[0]?.main}
           </h2>
           <p className="text-[#88869d] text-lg font-normal">
